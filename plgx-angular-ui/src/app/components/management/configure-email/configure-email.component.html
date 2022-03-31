@@ -109,6 +109,32 @@
                       </div>
                     </div>
 
+                    <div class="form-group row required">
+                      <label class="col-sm-2 col-form-label form--label">Connection Security</label>
+                      <div class="col-10">
+                        <div class="kt-radio-inline">
+                          <label class="kt-radio">
+                            <input type="radio" (change)="sslConnection = true;tlsConnection=false"  [checked]="sslConnection"  name="Connectiontype" >
+                            <label for="network_action-1">SSL</label>
+                            <span></span>
+                          </label>
+                          <label class="kt-radio">
+                            <input type="radio" (change)="sslConnection = false;tlsConnection=true"  [checked]="tlsConnection"  name="Connectiontype" >
+                            <label>TLS</label>
+                            <span></span>
+                          </label>
+                          <label class="kt-radio">
+                            <input type="radio"  (change)="sslConnection = false;tlsConnection=false" [checked]="noneConnection" name="Connectiontype" value="none">
+                            <label>None</label>
+                            <span></span>
+                          </label>
+                        </div>
+                          <!-- <input type="checkbox"  name="ssl"  formControlName="ssl" [(ngModel)]="use_ssl"
+                          value="{{use_ssl}}" style="vertical-align: middle;min-height:3em;">&nbsp;<span style="vertical-align: middle;">Use SSL</span> -->
+                      </div>
+                    </div>
+
+
                   </div>
                 </div>
 

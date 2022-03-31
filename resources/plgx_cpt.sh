@@ -2,7 +2,7 @@
 #
 # IMPORTANT! If osquery is not installed, it will be installed.
 
-_PROJECT="POLYLOGYX"
+_PROJECT="EclecticIQ-ER"
 
 _SECRET_OSX=/private/var/osquery/secret.txt
 _FLAGS_OSX=/private/var/osquery/osquery.flags

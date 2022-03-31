@@ -296,7 +296,7 @@ class Config(object):
     # for more information.
     # Alternatively, you can set filename to '-' to log to stdout.
 
-    POLYLOGYX_LOGGING_FILENAME = '/var/log/plgx_srv.log'
+    POLYLOGYX_LOGGING_FILENAME = '-'
     POLYLOGYX_LOGGING_FORMAT = '%(asctime)s--%(levelname).1s--%(thread)d--%(funcName)s--%(message)s'
     POLYLOGYX_LOGGING_LEVEL = 'INFO'
 

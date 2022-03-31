@@ -158,25 +158,29 @@ public alerts_graph_api_filter_with_Host_identifier(source,duration,type,date,ho
   public configuredEmail(){
       return this.http.get<any>(environment.api_url+"/email/configure");
   }
-  public UpdateconfigureEmail(SenderEmail, SenderPassword, SmtpAddress, SmtpPort, EmailRecipients){
+  public UpdateconfigureEmail(SenderEmail, SenderPassword, SmtpAddress, SmtpPort, EmailRecipients, use_ssl, use_tls){
       return this.http.post(environment.api_url+"/email/configure",
         {
           "emailRecipients": EmailRecipients,
           "email": SenderEmail,
           "smtpAddress": SmtpAddress,
           "password": SenderPassword,
-          "smtpPort": SmtpPort
+          "smtpPort": SmtpPort,
+          "use_ssl":use_ssl,
+          "use_tls":use_tls
         }
       );
   }
-  public TestEmail(EmailRecipients, SenderEmail, SmtpAddress, SenderPassword, SmtpPort){
+  public TestEmail(EmailRecipients, SenderEmail, SmtpAddress, SenderPassword, SmtpPort, use_ssl, use_tls){
     return this.http.post(environment.api_url+"/email/test",
     {
       "emailRecipients": EmailRecipients,
       "email": SenderEmail,
       "smtpAddress": SmtpAddress,
       "password": SenderPassword,
-      "smtpPort": SmtpPort
+      "smtpPort": SmtpPort,
+      "use_ssl":use_ssl,
+      "use_tls":use_tls
     }
     );
   }

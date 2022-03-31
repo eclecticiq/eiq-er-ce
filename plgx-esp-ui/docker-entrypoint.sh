@@ -48,12 +48,12 @@ echo "Changing directory to plgx-esp-ui..."
 cd /src/plgx-esp-ui
 
 echo "Starting celery beat..."
-exec `tmux send -t plgx_celery_beat 'celery beat -A polylogyx.worker:celery --schedule=/tmp/celerybeat-schedule --loglevel=INFO --pidfile=/tmp/celerybeaet.pid' ENTER`
+exec `tmux send -t plgx_celery_beat 'celery beat -A polylogyx.worker:celery --schedule=/tmp/celerybeat-schedule --loglevel=INFO --logfile=/var/log/celery-beat.log --pidfile=/tmp/celerybeat.pid' ENTER`
 echo "Starting PolyLogyx Vasp osquery fleet manager..."
-exec `tmux send -t plgx "gunicorn --workers=$WORKERS --threads=5  --timeout 120 -k flask_sockets.worker --bind 0.0.0.0:5001 manage:app --reload" ENTER`
+exec `tmux send -t plgx "gunicorn --workers=$WORKERS --threads=5 --log-level 'warning' --access-logfile '/var/log/gunicorn-access.log' --error-logfile '/var/log/gunicorn-error.log' --capture-output --timeout 120 -k flask_sockets.worker --bind 0.0.0.0:5001 manage:app --reload" ENTER`
 
 echo "Starting celery workers..."
-exec `tmux send -t plgx_celery "celery worker -A polylogyx.worker:celery --concurrency=4 -Q default_queue_ui_tasks,worker3 -l INFO &" ENTER`
+exec `tmux send -t plgx_celery "celery worker -A polylogyx.worker:celery --concurrency=4 -Q default_queue_ui_tasks,worker3 --loglevel=INFO --logfile=/var/log/celery.log &" ENTER`
 
 echo "PolyLogyx REST API key is : " "$API_KEY"
 echo "UI Sever is up and running.."

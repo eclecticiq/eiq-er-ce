@@ -121,12 +121,12 @@ done
 
 cd /src/plgx-esp
 echo "Starting celery beat..."
-exec `tmux send -t plgx_celery_beat 'celery beat -A polylogyx.worker:celery   --schedule=/tmp/celerybeat-schedule --loglevel=INFO --pidfile=/tmp/celerybeat.pid' ENTER`
+exec `tmux send -t plgx_celery_beat 'celery beat -A polylogyx.worker:celery --schedule=/tmp/celerybeat-schedule --loglevel=INFO --logfile=/var/log/celery-beat.log --pidfile=/tmp/celerybeat.pid' ENTER`
 echo "Starting celery RabbitMQ..."
 
 
 echo "Starting PolyLogyx Vasp osquery fleet manager..."
-exec `tmux send -t plgx_gunicorn "gunicorn -w $WORKERS -k gevent --worker-connections 40 --timeout 120 --bind 0.0.0.0:6000   manage:app --reload" ENTER`
+exec `tmux send -t plgx_gunicorn "gunicorn -w $WORKERS -k gevent --worker-connections 40 --log-level 'warning' --access-logfile '/var/log/gunicorn-access.log' --error-logfile '/var/log/gunicorn-error.log' --capture-output --timeout 120 --bind 0.0.0.0:6000   manage:app --reload" ENTER`
 
 if [[ -z "$PURGE_DATA_DURATION" ]]
 then
@@ -143,7 +143,7 @@ exec `tmux send -t plgx_celery 'python manage.py  update_vt_match_count --vt_min
 echo "Updating OSQuery Schema from polylogyx/resources/osquery_schema.json ..."
 exec `tmux send -t plgx_celery "python manage.py update_osquery_schema --file_path polylogyx/resources/osquery_schema.json " ENTER`
 
-exec `tmux send -t plgx_celery "celery worker -A polylogyx.worker:celery --concurrency=$WORKERS_CELERY -Q default_queue_tasks -l INFO &" ENTER`
+exec `tmux send -t plgx_celery "celery worker -A polylogyx.worker:celery --concurrency=$WORKERS_CELERY -Q default_queue_tasks --loglevel=INFO --logfile=/var/log/celery.log &" ENTER`
 
 echo "Sever is up and running.."
 exec `tmux send -t flower "flower -A polylogyx.worker:celery --address=0.0.0.0  --broker_api=http://guest:guest@$RABBITMQ_URL:5672/api --basic_auth=$POLYLOGYX_USER:$POLYLOGYX_PASSWORD" ENTER`

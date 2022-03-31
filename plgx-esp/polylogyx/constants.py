@@ -5,7 +5,8 @@ from binascii import b2a_hex
 
 
 SERVER_URL = ""
-TO_CAPTURE_COLUMNS=["md5","sha1","sha256","domain_name","remote_address","url"]
+TO_CAPTURE_COLUMNS = ["md5"]
+IOC_COLUMNS = ["md5", "sha1", "sha256", "domain_name", "remote_address", "url"]
 DEFAULT_PLATFORMS=['windows','linux','darwin','freebsd']
 clients = {}
 websockets = {}
@@ -276,13 +277,13 @@ class PolyLogyxConstants:
     DEFAULT_OPTIONS = {
         "custom_plgx_EnableLogging": "true",
         "custom_plgx_EnableSSL": "true",
-        "custom_plgx_LogFileName": "C:\\Program Files\\plgx_osquery\\plgx-agent.log",
+        "custom_plgx_LogFileName": "C:\\Program Files\\plgx_osquery\\plgx-win-extension.log",
         "custom_plgx_LogLevel": "3",
         "custom_plgx_LogModeQuiet": "0",
         "custom_plgx_EnableWatcher": "true",
         "custom_plgx_MemoryLimit": "150",
         "schedule_splay_percent": 10,
-        "custom_plgx_LogFileNameLinux":"/tmp/plgx-agent.log",
+        "custom_plgx_LogFileNameLinux": "/tmp/plgx-agent.log",
     }
 
 

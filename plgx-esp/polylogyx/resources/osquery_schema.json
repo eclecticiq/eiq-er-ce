@@ -3987,6 +3987,16 @@
         "description": "",
         "is_required": false
       },
+      "amsi_is_malware": {
+        "type": "TEXT",
+        "description": "",
+        "is_required": false
+      },
+      "byte_stream": {
+        "type": "TEXT",
+        "description": "",
+        "is_required": false
+      },
       "eid": {
         "type": "TEXT",
         "description": "",

@@ -25,19 +25,19 @@
                         <div class="kt-section__body read_align">
                         <!-- Begin:: readme -->
                           <div id="readme" class="head-color">
-                            <h2>{{ProjectName}} Endpoint Security Platform (ESP) - Community Edition</h2>
-                            <p id="top">Welcome to {{ProjectName}} Endpoint Security Platform (ESP). {{ProjectName}} ESP provides deep visibility into endpoints using osquery based agent. To enhance the visibility on Windows platform, {{ProjectName}} provides a Windows extension to the osquery.</p>
+                            <h2>{{ProjectName}} Endpoint Response (ER) - Community Edition</h2>
+                            <p id="top">Welcome to {{ProjectName}} Endpoint Response (ER). {{ProjectName}} ER provides deep visibility into endpoints using osquery based agent. To enhance the visibility on Windows platform, {{ProjectName}} provides a Windows extension to the osquery.</p>
                             <ul>
                               <li>Information about osquery can be found at <a href="https://osquery.io" target="_blank">https://osquery.io</a>
                               </li>
-                              <li>Information regarding {{ProjectName}} osquery Extension can be found <a href="https://github.com/polylogyx/osq-ext-bin" target="_blank" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="https://github.com/polylogyx/osq-ext-bin">here</a>.
+                              <li>Information regarding {{ProjectName}} osquery Extension can be found <a href="https://github.com/EclecticIQ/osq-ext-bin" target="_blank" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="https://github.com/EclecticIQ/osq-ext-bin">here</a>.
                               </li>
-                              <li>Information regarding {{ProjectName}} ESP Documentation can be found <a href="https://github.com/polylogyx/platform-docs" target="_blank" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="https://github.com/polylogyx/platform-docs">here</a>.
+                              <li>Information regarding {{ProjectName}} ER Documentation can be found <a href="https://github.com/EclecticIQ/eiq-er-docs" target="_blank" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="https://github.com/EclecticIQ/eiq-er-docs">here</a>.
                               </li>
                               <li>Information for {{ProjectName}} REST API in order to programmatically interact with the platform can be found at <a href="javascript:void(0);" (click)="downloadFile($event,'plgx_RESTapi_v1.pdf')" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="">API Documentation</a>.
                               </li>
                             </ul>
-                            <p>Finally, you have any unanswered questions, feel free to mail us at <a target="_blank" href="mailto:support@polylogyx.com">support@polylogyx.com</a> or join us on osquery slack. We can be found in the channel <i>#polylogyx-extension</i>.</p>
+                            <p>Finally, you have any unanswered questions, feel free to mail us at <a target="_blank" href="mailto:support@eclecticiq.com">support@eclecticiq.com</a> or join us on osquery slack. We can be found in the channel <i>#polylogyx-extension</i>.</p>
                             <h3>{{ProjectName}} Client Provisioning Tool</h3>
                               {{ProjectName}} Client Provisioning Tool (CPT) is a utility that simplifies the installation of osquery and {{ProjectName}} extension on Windows operating system by taking away the cumbersome steps of installing osquery manually. This tool requires <a href="javascript:void(0);" (click)="downloadFile($event,'certificate.crt')" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="Download Certificate">server certificate</a> to run.
                               <p>After the successful execution of the installation, following line will be displayed.</p>
@@ -46,7 +46,7 @@
                               <p>CPT tool can also be used to uninstall the previous installation</p>
                               <pre> plgx_cpt -u d</pre>
                               <p>For more CPT options run the tool without any parameters</p>
-                              <h3>{{ProjectName}} ESP {{Version}} ships with following agent binaries</h3>
+                              <h3>{{ProjectName}} ER {{Version}} ships with following agent binaries</h3>
                               <div class="table-responsive">
                                 <table class="table">
                                   <thead  >
@@ -111,7 +111,7 @@
                                 </table>
                               </div>
                             <h3>Managing Endpoints</h3>
-                              <p>{{ProjectName}} ESP allows administrators to remotely manage the osquery configurations retrieved by endpoints. Administrators can dynamically configure the set of packs, queries using tags. FIM(file integrity monitoring) target paths can be configured under <a [routerLink]="['/config']" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" target="_blank" title="">Config Management</a>. Default queries and filters under Config Management is applied to all  the endpoints based on their platform. Tags are used to map endpoints to queries and packs.</p>
+                              <p>{{ProjectName}} ER allows administrators to remotely manage the osquery configurations retrieved by endpoints. Administrators can dynamically configure the set of packs, queries using tags. FIM(file integrity monitoring) target paths can be configured under <a [routerLink]="['/config']" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" target="_blank" title="">Config Management</a>. Default queries and filters under Config Management is applied to all  the endpoints based on their platform. Tags are used to map endpoints to queries and packs.</p>
                             <h3>{{ProjectName}} Control configurations</h3>
                                 <pre>
   &#123;
@@ -135,23 +135,23 @@
                                 <li>Distributed (a.k.a Live) queries</li>
                               </ol>
                               <p>These queries are in the form of standard SQL <i>'SELECT'</i> statements with all the other SQL syntax and constraints like <i>'WHERE', 'JOIN', 'LIKE', 'LIMIT'</i> etc. The base osquery provides a set of query-able tables and the schema for those tables can be found <a target="_blank" href="https://osquery.io/schema" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="https://osquery.io/schema">here</a>. The {{ProjectName}} Extension to osquery has added additional tables that allow for much deeper visibility into Windows endpoints. The schema for these tables can be found
-                              <a href="https://github.com/polylogyx/platform-docs/tree/master/12_Tables" target="_blank" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="https://github.com/polylogyx/platform-docs/tree/master/12_Tables">here</a>.
+                              <a href="https://github.com/EclecticIQ/eiq-er-docs/tree/master/12_Tables" target="_blank" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="https://github.com/EclecticIQ/eiq-er-docs/tree/master/12_Tables">here</a>.
                               </p>
-                              <p>Scheduled queries (or packs) can be added from the server under the Config Management section in the navigation menu. The results of the scheduled queries are retained on the database in the management server. Scheduled queries can be used for data retention by gradually pulling data from the endpoint, or an <i>'alert'</i> like notification when a particular condition is met. In the subsequent versions of the {{ProjectName}} ESP, the connectors to various logging aggregator <i>(e.g. Splunk)</i> would be made available for the results to be directly sent there.</p>
-                              <p>Live queries, or also known as Distributed queries, are real-time queries send to endpoints. In the {{ProjectName}} ESP, sending live queries is fairly simplified. Clicking on Live Queries in the navigation menu, type the SQL query <i>(e.g. "select * from win_process_events;")</i>, pick the target endpoint(s) and/or tags. The query will then be sent to all the selected endpoints and the result will be shown in a matter
+                              <p>Scheduled queries (or packs) can be added from the server under the Config Management section in the navigation menu. The results of the scheduled queries are retained on the database in the management server. Scheduled queries can be used for data retention by gradually pulling data from the endpoint, or an <i>'alert'</i> like notification when a particular condition is met. In the subsequent versions of the {{ProjectName}} ER, the connectors to various logging aggregator <i>(e.g. Splunk)</i> would be made available for the results to be directly sent there.</p>
+                              <p>Live queries, or also known as Distributed queries, are real-time queries send to endpoints. In the {{ProjectName}} ER, sending live queries is fairly simplified. Clicking on Live Queries in the navigation menu, type the SQL query <i>(e.g. "select * from win_process_events;")</i>, pick the target endpoint(s) and/or tags. The query will then be sent to all the selected endpoints and the result will be shown in a matter
                                   of few seconds. If no endpoint or tags are selected, the query is sent to the entire population of live endpoints. Depending on the network bandwidth, the volume of data, number of endpoints etc, sometimes there
                                   could be a larger delay. Live query results are not stored anywhere automatically. They can however be exported into a CSV/XLS file. With the combination of SQL constraints, Live queries can be very useful for searching threat indicatiors
-                                  <i>e.g. file hashes, URLs, sockets, ports etc.</i> The {{ProjectName}} ESP provides the advantage of additional <a target="_blank" href="https://github.com/polylogyx/platform-docs/tree/master/12_Tables" target="_blank" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="https://github.com/polylogyx/platform-docs/tree/master/12_Tables">tables</a> for Windows platform. </p>
+                                  <i>e.g. file hashes, URLs, sockets, ports etc.</i> The {{ProjectName}} ER provides the advantage of additional <a target="_blank" href="https://github.com/EclecticIQ/eiq-er-docs/tree/master/12_Tables" target="_blank" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="https://github.com/EclecticIQ/eiq-er-docs/tree/master/12_Tables">tables</a> for Windows platform. </p>
                               <p>Through optimal combination of Live and Scheduled queries data can be queried, and pulled for retention, from the endpoint. One example to optimize schedule queries for data collection for tables ending with <i>_events</i> suffix could be to pull endpoint records before they are deleted from the endpoint. Since the endpoint stores upto 1500 records on the endpoint, scheduled queries can be created such that when the record count is hit, data is pulled to the server for e.g.</p>
                               <pre> select * from "table_name" where "x" &lt; (select count(eid) from "table_name");</pre>
                               <p> Where x is less than 1500 And schedule this query to run at intervals of few hours. Spreading queries across different tables at different hours gives the advantage of network bandwith optimization. And use Live queries to get data from the endpoint store that has not yet been pulled to server.</p>
 
                             <h3>Rules and Alerts</h3>
-                              <p>If you're not acting on the information you collect, what's the point? {{ProjectName}} ESP allows admins to configure custom rules to trigger alerts on specific events <i>(for example, an unauthorized browser plugin is installed, or a removable USB storage device is inserted)</i>. {{ProjectName}} ESP allows building complex rule sets that can use arbitrary boolean logic and a variety of operators to test the results of a query. You can see the alerts by clicking Alerts from left menu.</p>
+                              <p>If you're not acting on the information you collect, what's the point? {{ProjectName}} ER allows admins to configure custom rules to trigger alerts on specific events <i>(for example, an unauthorized browser plugin is installed, or a removable USB storage device is inserted)</i>. {{ProjectName}} ER allows building complex rule sets that can use arbitrary boolean logic and a variety of operators to test the results of a query. You can see the alerts by clicking Alerts from left menu.</p>
                             <h4>Configuring Alert Email Settings</h4>
                               <p>Email sender and recipient can be configured from <a [routerLink]="['/management/configure-email']" target="_blank" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title=""> Email settings</a> menu. </p>
                              <h4>Threat Intel Integration</h4>
-                              <p>{{ProjectName}} ESP comes with connectors for following <b>3rd party</b> cloud based threat intel platforms:</p>
+                              <p>{{ProjectName}} ER comes with connectors for following <b>3rd party</b> cloud based threat intel platforms:</p>
                               <ul>
                                 <li><a target="_blank" href="https://www.virustotal.com/" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="https://www.virustotal.com/">VirusTotal</a></li>
                                 <li><a target="_blank" href="https://exchange.xforce.ibmcloud.com/" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="https://exchange.xforce.ibmcloud.com/">IBM xForce</a></li>
@@ -161,7 +161,7 @@
                               <p>Click <a [routerLink]="['/management/intel-keys']" target="_blank" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="">here</a> to update the API keys.</p>
                               <p>The data collected in the recon phase is matched against the threat intelligence feeds to uncover any persistent malware on the endpoint.</p>
                              <h3>Integration with SIEM</h3>
-                              <p>{{ProjectName}} ESP is bundled with rsyslog forwarder. Please add the forwarding address and port in rsyslog.conf file. You also need to set the environment variable <i>RSYSLOG_FORWARDING</i> to true in docker-compose.yml and restart the Docker. Following are some examples:-</p>
+                              <p>{{ProjectName}} ER is bundled with rsyslog forwarder. Please add the forwarding address and port in rsyslog.conf file. You also need to set the environment variable <i>RSYSLOG_FORWARDING</i> to true in docker-compose.yml and restart the Docker. Following are some examples:-</p>
                               <ul>
                                 <li><b>#Forwarding to GrayLog</b></li>
                                 <li>*.* @@10.0.0.77:10514;RSYSLOG_SyslogProtocol23Format</li>
@@ -169,7 +169,7 @@
                                 <li>*.* action(type="omfwd" target="rsyslogr" port="10514" protocol="tcp" actio.resumeRetryCount="3" queue.type="linkedlist" queue.size="10000")</li>
                               </ul>
                             <h3>Event Filters(Windows x64 only)</h3>
-                              <p>{{ProjectName}} agent collects the endpoint activity data in real-time and makes it available for consumption via osquery interface. The event data can be extremely voluminous and most of it might just be noise causing strain on networking and storage infrastructure. To optimize the event collection, {{ProjectName}} ESP provides ways of applying filters to the real-time evented tables. These filters can be defined using <i>'inclusion'</i> or <i>'exclusion'</i> semantics. When defined for inclusion, only those events that match the criteria are included. When defined for exclusion, all events that match the criteria are excluded. Between inclusion and exclusion, exclusion takes priority.</p>
+                              <p>{{ProjectName}} agent collects the endpoint activity data in real-time and makes it available for consumption via osquery interface. The event data can be extremely voluminous and most of it might just be noise causing strain on networking and storage infrastructure. To optimize the event collection, {{ProjectName}} ER provides ways of applying filters to the real-time evented tables. These filters can be defined using <i>'inclusion'</i> or <i>'exclusion'</i> semantics. When defined for inclusion, only those events that match the criteria are included. When defined for exclusion, all events that match the criteria are excluded. Between inclusion and exclusion, exclusion takes priority.</p>
                               <p>Following evented tables, and data columns support event filters: </p>
                               <div class="table-responsive">
                                 <table class="table">
@@ -285,7 +285,7 @@
                             <br/>
 
                             <h3>Default Configuration</h3>
-                            <p>{{ProjectName}} ESP provisions the endpoint agent with a default configuration that includes a set of scheduled queries and event filters.</p>
+                            <p>{{ProjectName}} ER provisions the endpoint agent with a default configuration that includes a set of scheduled queries and event filters.</p>
 
 
                                 <h3>Recommendation for Optimal Display</h3>
@@ -327,11 +327,11 @@
                       </div>
                     </div>
                       <h3>LICENSE</h3>
-                      <p>{{ProjectName}} ESP is shipped under the explicit agreement between EclecticIQ B.V. and you. For licensing terms and other usage guidelines, please refer to the agreement.</p>
+                      <p>{{ProjectName}} ER is shipped under the explicit agreement between EclecticIQ B.V. and you. For licensing terms and other usage guidelines, please refer to the agreement.</p>
                     <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg" style=""></div>
                     <!--Begin:: Licence-->
                     <div class="">
-                      <span>&copy;&nbsp;2020 All rights to {{ProjectName}} products belong to &nbsp;</span>
+                      <span>&copy;&nbsp;{{CopyRightYear}} All rights to {{ProjectName}} products belong to &nbsp;</span>
                       <a target="_blank" class="modal-link kt-link" t="_blank"targe href="https://www.eclecticiq.com/">
                         <!-- <p>© EclecticIQ 2019</p> -->
                          EclecticIQ B.V.

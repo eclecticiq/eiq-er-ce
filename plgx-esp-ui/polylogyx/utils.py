@@ -31,34 +31,40 @@ schema = [x for x in schema.strip().split('\n') if not x.startswith('--')]
 osquery_mock_db = threading.local()
 
 
-def send_email(body, subject, config, node,db):
-    from flask import current_app
-    emailRecipients = None
-    emailRecipientsTuple = config['EMAIL_RECIPIENTS'],
+def send_test_mail(settings):
+    from flask import Flask
+    test_app = Flask(__name__)
+    test_app.config['EMAIL_RECIPIENTS'] = settings['emailRecipients']
+    test_app.config['MAIL_USERNAME'] = settings['email']
+    test_app.config['MAIL_PASSWORD'] = settings['password']
+    test_app.config['MAIL_SERVER'] = settings['smtpAddress']
+    test_app.config['MAIL_PORT'] = int(settings.get('smtpPort', 465))
+    test_app.config['MAIL_USE_SSL'] = settings['use_ssl']
+    test_app.config['MAIL_USE_TLS'] = settings['use_tls']
 
-    try:
-        current_app.config['MAIL_PASSWORD']=current_app.config['MAIL_PASSWORD'].decode('utf-8')
-    except Exception as e:
-        print(e)
+    content = """Test message"""
+    subject = "Sent from PolyLogyx-ESP"
+    return send_mail(test_app, content, subject)
 
-    for emailRecipient in emailRecipientsTuple:
-        emailRecipients = emailRecipient
-    if emailRecipients:
+
+def send_mail(app, content, subject):
+    import socket
+    socket.setdefaulttimeout(30)
+    if app.config['EMAIL_RECIPIENTS']:
         message = Message(
             subject.strip(),
-            recipients=emailRecipients,
-            body=body,
+            sender=app.config['MAIL_USERNAME'],
+            recipients=app.config['EMAIL_RECIPIENTS'],
+            body=content,
             charset='utf-8',
         )
-
-        currentMail = Mail(app=current_app)
+        mail = Mail(app=app)
         try:
-            return currentMail.send(message)
+            mail.send(message)
+            return True
         except Exception as e:
-            db.session.query(AlertEmail).filter(AlertEmail.status == 'PENDING').filter(AlertEmail.node == node).update(
-                {'status': None})
-            db.session.commit()
-            print (e)
+            current_app.logger.error("Unable to send mail - {}".format(str(e)))
+    return False
 
 
 def assemble_additional_configuration(node):
@@ -86,7 +92,6 @@ def get_additional_config(node):
     configuration['packs'] = assemble_packs(node)
     configuration['tags'] = [tag.value for tag in node.tags]
     return configuration
-
 
 
 def assemble_options(node):

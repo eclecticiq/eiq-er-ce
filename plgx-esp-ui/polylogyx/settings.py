@@ -258,9 +258,9 @@ class Config(object):
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 465
     MAIL_USE_SSL = True
+    MAIL_USE_TLS = False
     MAIL_USERNAME = ''
     MAIL_PASSWORD = ''
-
     MAIL_DEFAULT_SENDER = 'polylogyx@localhost'
 
     # PolyLogyx fleet manager uses the WatchedFileHandler in logging.handlers module.
@@ -269,7 +269,7 @@ class Config(object):
     # https://docs.python.org/dev/library/logging.handlers.html#watchedfilehandler
     # for more information.
     # Alternatively, you can set filename to '-' to log to stdout.
-    POLYLOGYX_LOGGING_FILENAME = '/var/log/plgxsrv.log'
+    POLYLOGYX_LOGGING_FILENAME = '-'
     POLYLOGYX_LOGGING_FORMAT = '%(asctime)s--%(levelname).1s--%(thread)d--%(funcName)s--%(message)s'
     POLYLOGYX_LOGGING_LEVEL = 'INFO'
 

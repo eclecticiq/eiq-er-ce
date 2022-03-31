@@ -31,27 +31,20 @@ celery.conf.beat_schedule = {
 
 
 def update_sender_email(db):
-    emailSenderObj = db.session.query(Settings).filter(Settings.name == PolyLogyxServerDefaults.plgx_config_all_settings).first()
-    if not emailSenderObj:
+    email_sender_obj = db.session.query(Settings).filter(
+        Settings.name == PolyLogyxServerDefaults.plgx_config_all_settings).first()
+    if not email_sender_obj:
         current_app.logger.info("Email credentials are not set..")
         return False
     try:
-        settings = json.loads(emailSenderObj.setting)
-        emailSender = settings['email']
-        emailPassword = base64.decodestring(settings['password'].encode('utf-8')).decode('utf-8')
-        smtpPort = settings['smtpPort']
-        smtpAddress = settings['smtpAddress']
-        emailRecipients = settings['emailRecipients']
-        emailRecipientList = []
-        if emailRecipients and len(emailRecipients) > 0:
-            for emailRecipient in emailRecipients:
-                emailRecipientList.append(emailRecipient)
-                current_app.config['EMAIL_RECIPIENTS'] = emailRecipientList
-
-        current_app.config['MAIL_USERNAME'] = emailSender
-        current_app.config['MAIL_PASSWORD'] = emailPassword
-        current_app.config['MAIL_SERVER'] = smtpAddress
-        current_app.config['MAIL_PORT'] = int(smtpPort)
+        settings = json.loads(email_sender_obj.setting)
+        current_app.config['EMAIL_RECIPIENTS'] = settings['emailRecipients']
+        current_app.config['MAIL_USERNAME'] = settings['email']
+        current_app.config['MAIL_PASSWORD'] = base64.decodestring(settings['password'].encode('utf-8')).decode('utf-8')
+        current_app.config['MAIL_SERVER'] = settings['smtpAddress']
+        current_app.config['MAIL_PORT'] = int(settings['smtpPort'])
+        current_app.config['MAIL_USE_SSL'] = settings['use_ssl']
+        current_app.config['MAIL_USE_TLS'] = settings['use_tls']
         return True
     except Exception as e:
         current_app.logger.info("Incomplete email credentials")
@@ -73,6 +66,32 @@ def send_alert_emails():
             except Exception as e:
                 current_app.logger.error(e.message)
     current_app.logger.info("Task is completed in sending the pending emails of the alerts reported")
+
+
+def send_pending_node_emails(node, db):
+    from polylogyx.utils import send_mail
+    alert_emails = AlertEmail.query.filter(AlertEmail.node == node).filter(AlertEmail.status == None).all()
+    body = ''
+    is_mail_sent = False
+    for alert_email in alert_emails:
+        body = body + alert_email.body
+    if body:
+        db.session.query(AlertEmail).filter(AlertEmail.status == None).filter(AlertEmail.node == node).update(
+            {'status': 'PENDING'})
+        db.session.commit()
+        try:
+            is_mail_sent = send_mail(app=current_app, content=body, subject=node.display_name + ' Alerts Today')
+        except Exception as e:
+            current_app.logger.error(e.message)
+        if is_mail_sent:
+            db.session.query(AlertEmail).filter(AlertEmail.status == 'PENDING').filter(
+                AlertEmail.node == node).update(
+                {'status': 'COMPLETED'})
+        else:
+            db.session.query(AlertEmail).filter(AlertEmail.status == 'PENDING').filter(
+                AlertEmail.node == node).update(
+                {'status': None})
+        db.session.commit()
 
 
 @celery.task()
@@ -160,30 +179,3 @@ class DecimalEncoder(json.JSONEncoder):
             return float(o)
         return super(DecimalEncoder, self).default(o)
 
-
-def send_pending_node_emails(node, db):
-    alert_emails = AlertEmail.query.filter(AlertEmail.node == node).filter(AlertEmail.status == None).all()
-    body = ''
-    for alert_email in alert_emails:
-        body = body + alert_email.body
-    if body:
-
-        try:
-            db.session.query(AlertEmail).filter(AlertEmail.status == None).filter(AlertEmail.node == node).update(
-                {'status': 'PENDING'})
-            db.session.commit()
-            send_email(node, body, db)
-        except Exception as e:
-            current_app.logger.error(e.message)
-
-
-def send_email(node, body, db):
-    from polylogyx.utils import send_email
-    send_email(body=body, subject=node.display_name + ' Alerts Today',
-               config=current_app.config, node=node, db=db)
-    try:
-        db.session.query(AlertEmail).filter(AlertEmail.status == 'PENDING').filter(AlertEmail.node == node).update(
-            {'status': 'COMPLETED'})
-        db.session.commit()
-    except Exception  as e:
-        current_app.logger.error(e.message)

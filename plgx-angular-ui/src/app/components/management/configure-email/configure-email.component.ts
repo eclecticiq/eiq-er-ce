@@ -26,8 +26,12 @@ export class ConfigureEmailComponent implements OnInit {
   conf_password_data: any;
   conf_server_data: any;
   conf_port_data: number = 465;
+  use_ssl:boolean
   EmailSubmit: any;
   EmailTest: any;
+  sslConnection:boolean = false;
+  tlsConnection:boolean = false;
+  noneConnection:boolean = false;
   constructor(
     private fb: FormBuilder,
     private commonapi: CommonapiService,
@@ -56,6 +60,11 @@ export class ConfigureEmailComponent implements OnInit {
       this.conf_password_data = res.data.password;
       this.conf_server_data = res.data.smtpAddress;
       this.conf_port_data = res.data.smtpPort;
+      this.sslConnection=res.data.use_ssl;
+      this.tlsConnection=res.data.use_tls;
+      if(!this.sslConnection && !this.tlsConnection){
+        this.noneConnection = true;
+      }
     })
   }
   get f() { return this.ConfigureEmail.controls; }
@@ -82,7 +91,7 @@ export class ConfigureEmailComponent implements OnInit {
             }
           })
           this.commonapi.UpdateconfigureEmail(this.f.senderEmail.value, this.f.senderPassword.value,
-            this.f.smtpServer.value, this.f.smtpPort.value, this.f.emailRecipients.value).subscribe(res => {
+            this.f.smtpServer.value, this.f.smtpPort.value, this.f.emailRecipients.value, this.sslConnection, this.tlsConnection).subscribe(res => {
               this.EmailSubmit = res;
               Swal.close()
               if (this.EmailSubmit.status == 'failure') {
@@ -186,7 +195,7 @@ export class ConfigureEmailComponent implements OnInit {
           Swal.showLoading()
         }
       })
-      this.commonapi.TestEmail(arg.value.emailRecipients, arg.value.senderEmail, arg.value.smtpServer, arg.value.senderPassword, arg.value.smtpPort).subscribe(res => {
+      this.commonapi.TestEmail(arg.value.emailRecipients, arg.value.senderEmail, arg.value.smtpServer, arg.value.senderPassword, arg.value.smtpPort, this.sslConnection, this.tlsConnection).subscribe(res => {
         this.EmailTest = res;
         Swal.close();
         if (this.EmailTest.status == 'failure') {

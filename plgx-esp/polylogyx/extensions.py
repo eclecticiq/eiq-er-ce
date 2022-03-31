@@ -153,17 +153,18 @@ class RuleManager(object):
 
     def check_for_iocs(self,name,columns, node,uuid):
         try:
-            from polylogyx.constants import TO_CAPTURE_COLUMNS
+            from polylogyx.constants import TO_CAPTURE_COLUMNS, IOC_COLUMNS
             from polylogyx.models import ResultLogScan
-            for capture_column in TO_CAPTURE_COLUMNS:
+            for capture_column in IOC_COLUMNS:
                 if capture_column in columns and columns[capture_column]:
-                    self.check_for_ioc_matching(name,columns,node,uuid,capture_column)
-                    result_log_scan = ResultLogScan.query.filter(
-                        ResultLogScan.scan_value == columns[capture_column]).first()
-                    if not result_log_scan:
-                        from polylogyx.models import ResultLogScan
-                        ResultLogScan.create(scan_value=columns[capture_column], scan_type=capture_column,
-                                             reputations={})
+                    self.check_for_ioc_matching(name, columns, node, uuid, capture_column)
+                    if capture_column in TO_CAPTURE_COLUMNS:
+                        result_log_scan = ResultLogScan.query.filter(
+                            ResultLogScan.scan_value == columns[capture_column]).first()
+                        if not result_log_scan:
+                            from polylogyx.models import ResultLogScan
+                            ResultLogScan.create(scan_value=columns[capture_column], scan_type=capture_column,
+                                                 reputations={})
                     break
         except Exception as e:
             current_app.logger.error(e)
